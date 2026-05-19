@@ -11,7 +11,12 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await expect(page.getByRole('heading')).toContainText('Consultar Pedido')
 
   // Act
-  await page.getByTestId('search-order-id').fill('VLO-4T782X')
+  //await page.locator('input[name="order-id"]').fill('VLO-4T782X')
+  //await.page.locater('input[placeholder="Ex: VLO-ABC123"]').fill('VLO-4T782X')
+  //await.page.locator('//label[text()="Número do Pedido"]/..//input').fill('VLO-4T782X')
+  await page.getByRole('textbox', { name: 'Número do Pedido' }).fill('VLO-4T782X')
+  // await page.getByLabel('Número do Pedido').fill('VLO-4T782X')
+ // await page.getByPlaceholder('Ex: VLO-ABC123').fill('VLO-4T782X')
   await page.getByTestId('search-order-button').click()
 
   // Assert
