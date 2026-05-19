@@ -20,7 +20,8 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await page.getByTestId('search-order-button').click()
 
   // Assert
-  await expect(page.getByTestId('order-result-id')).toBeVisible()
+  //await page.waitForTimeout(30000) //Thread Sleep do Selenium ou Cypress wait cy.wait(10000), evitar usar, pois toda vez ele ficará parado por esse tempo antes de continuar a execução do teste
+  await expect(page.getByTestId('order-result-id')).toBeVisible({timeout: 10000}) // melhor estrategia é usar o timeout explicito para esperar o elemento aparecer, pois ele pode ficar até o tempo do timeout
   await expect(page.getByTestId('order-result-id')).toContainText('VLO-4T782X')
   await expect(page.getByTestId('order-result-status')).toBeVisible()
   await expect(page.getByTestId('order-result-status')).toContainText('APROVADO')
