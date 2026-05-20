@@ -39,6 +39,8 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   //Usando a estrategia do XPath
   await expect(page.locator('//div[contains(text(),"VLO-4T782X")]')).toBeVisible({timeout: 10000})
   await expect(page.locator('//div[contains(text(),"VLO-4T782X")]')).toContainText('VLO-4T782X')
+  await expect(page.locator('//div[contains(text(),"APROVADO")]')).toBeVisible({timeout: 10000})
+  await expect(page.locator('//div[contains(text(),"APROVADO")]')).toContainText('APROVADO')
 
 
 
