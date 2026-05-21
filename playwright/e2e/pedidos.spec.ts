@@ -29,6 +29,9 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   //await expect(page.getByTestId('order-result-status')).toContainText('APROVADO')
 
   // Desafio Módulo 2 order-result-id e order-result-status
+  // Para o desafio não removi apenas o data-test-id, mas todo o paragrafo, ficando
+  // De <p className="font-mono font-medium" data-test-id="order-resultid"> {searchedOrder.id} </p>
+  // Para <div> <p className="text-sm text-muted-foreground">Pedido</p> {searchedOrder.id} </div>
   // Usando a estrategia do codegen
   await expect(page.getByText('PedidoVLO-4T782X')).toBeVisible({timeout: 10000})
   await expect(page.getByTestId('order-result-VLO-4T782X')).toContainText('PedidoVLO-4T782X')
