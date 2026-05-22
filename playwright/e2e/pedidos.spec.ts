@@ -17,7 +17,19 @@ test.describe('Consulta de Pedido', () => {
   
   test('deve consultar um pedido aprovado', async ({ page }) => {
     // Test Data
-    const order = 'VLO-4T782X'
+    // const order = 'VLO-4T782X'
+
+    const order = {
+      number: 'VLO-4T782X',
+      status: 'APROVADO',
+      color: 'Glacier Blue',
+      wheels: 'aero Wheels',
+      customer: {
+        name: 'Test test',
+        email: 'test@test.com.br'
+      },
+      payment: 'À Vista'
+    }
   
   
     // Act
@@ -28,7 +40,7 @@ test.describe('Consulta de Pedido', () => {
     // await page.getByPlaceholder('Ex: VLO-ABC123').fill('VLO-4T782X')
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
+    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
     await page.getByRole('button', { name: 'Buscar Pedido' }).click()
     
   
@@ -40,32 +52,32 @@ test.describe('Consulta de Pedido', () => {
     // await expect (containerPedido).toContainText(order, { timeout: 10_000 })
     // await expect (page.getByText('APROVADO')).toBeVisible()
 
-    await expect(page.getByTestId(`order-result-${order}`)).toMatchAriaSnapshot(`
+    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
       - img
       - paragraph: Pedido
-      - text: ${order}
+      - text: ${order.number}
       - img
-      - text: APROVADO
+      - text: ${order.status}
       - img "Velô Sprint"
       - paragraph: Modelo
       - paragraph: Velô Sprint
       - paragraph: Cor
-      - paragraph: Glacier Blue
+      - paragraph: ${order.color}
       - paragraph: Interior
       - paragraph: cream
       - paragraph: Rodas
-      - paragraph: aero Wheels
+      - paragraph: ${order.wheels}
       - heading "Dados do Cliente" [level=4]
       - paragraph: Nome
-      - paragraph: Test test
+      - paragraph: ${order.customer.name}
       - paragraph: Email
-      - paragraph: test@test.com.br
+      - paragraph: ${order.customer.email}
       - paragraph: Loja de Retirada
       - paragraph
       - paragraph: Data do Pedido
       - paragraph: /\\d+\\/\\d+\\/\\d+/
       - heading "Pagamento" [level=4]
-      - paragraph: À Vista
+      - paragraph: ${order.payment}
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `)
   
@@ -98,40 +110,53 @@ test.describe('Consulta de Pedido', () => {
 
   test('deve consultar um pedido reprovado', async ({ page }) => {
     // Test Data
-    const order = 'VLO-7GM008'
-  
+    // const order = 'VLO-7GM008'
+
+    const order = {
+      number: 'VLO-7GM008',
+      status: 'REPROVADO',
+      color: 'Lunar White',
+      wheels: 'sport Wheels',
+      customer: {
+        name: 'Steve Jobs',
+        email: 'jobs@apple.com'
+      },
+      payment: 'À Vista'
+    }
+
+   
   
     // Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
+    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
     await page.getByRole('button', { name: 'Buscar Pedido' }).click()
     
     // Assert
-    await expect(page.getByTestId(`order-result-${order}`)).toMatchAriaSnapshot(`
+    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
       - img
       - paragraph: Pedido
-      - text: ${order}
+      - text: ${order.number}
       - img
-      - text: APROVADO
+      - text: ${order.status}
       - img "Velô Sprint"
       - paragraph: Modelo
       - paragraph: Velô Sprint
       - paragraph: Cor
-      - paragraph: Glacier Blue
+      - paragraph: ${order.color}
       - paragraph: Interior
       - paragraph: cream
       - paragraph: Rodas
-      - paragraph: aero Wheels
+      - paragraph: ${order.wheels}
       - heading "Dados do Cliente" [level=4]
       - paragraph: Nome
-      - paragraph: Test test
+      - paragraph: ${order.customer.name}
       - paragraph: Email
-      - paragraph: test@test.com.br
+      - paragraph: ${order.customer.email}
       - paragraph: Loja de Retirada
       - paragraph
       - paragraph: Data do Pedido
       - paragraph: /\\d+\\/\\d+\\/\\d+/
       - heading "Pagamento" [level=4]
-      - paragraph: À Vista
+      - paragraph: ${order.payment}
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `)
   
