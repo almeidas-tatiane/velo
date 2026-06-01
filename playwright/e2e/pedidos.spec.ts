@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { generateOrderCode, searchOrder } from '../support/helpers'
+import { OrderLookupPage } from '../support/pages/OrderLookupPage'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
@@ -39,7 +40,9 @@ test.describe('Consulta de Pedido', () => {
     // await page.getByPlaceholder('Ex: VLO-ABC123').fill('VLO-4T782X')
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
-    await searchOrder(page, order.number)
+    //await searchOrder(page, order.number)
+    const orderLookupPage = new OrderLookupPage(page)
+    await orderLookupPage.searchOrder(order.number)
 
     
   
@@ -136,7 +139,9 @@ test.describe('Consulta de Pedido', () => {
    
   
     // Act
-    await searchOrder(page, order.number)
+    //await searchOrder(page, order.number)
+    const orderLookupPage = new OrderLookupPage(page)
+    await orderLookupPage.searchOrder(order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -198,7 +203,9 @@ test.describe('Consulta de Pedido', () => {
    
   
     // Act
-    await searchOrder(page, order.number)
+    //await searchOrder(page, order.number)
+    const orderLookupPage = new OrderLookupPage(page)
+    await orderLookupPage.searchOrder(order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -247,7 +254,9 @@ test.describe('Consulta de Pedido', () => {
   
  
     // Act
-    await searchOrder(page, order)
+    //await searchOrder(page, order)
+    const orderLookupPage = new OrderLookupPage(page)
+    await orderLookupPage.searchOrder(order)
   
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
