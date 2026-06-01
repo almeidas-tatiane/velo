@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { generateOrderCode } from '../support/helpers'
-
+import { generateOrderCode, searchOrder } from '../support/helpers'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
@@ -40,8 +39,8 @@ test.describe('Consulta de Pedido', () => {
     // await page.getByPlaceholder('Ex: VLO-ABC123').fill('VLO-4T782X')
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    await searchOrder(page, order.number)
+
     
   
     // Assert
@@ -137,8 +136,7 @@ test.describe('Consulta de Pedido', () => {
    
   
     // Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    await searchOrder(page, order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -200,8 +198,7 @@ test.describe('Consulta de Pedido', () => {
    
   
     // Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    await searchOrder(page, order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -250,8 +247,7 @@ test.describe('Consulta de Pedido', () => {
   
  
     // Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    await searchOrder(page, order)
   
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
