@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { generateOrderCode, searchOrder} from '../support/helpers'
+import { generateOrderCode} from '../support/helpers'
 import { OrderLockupPage } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
