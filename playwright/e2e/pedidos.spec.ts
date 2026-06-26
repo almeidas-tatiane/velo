@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { generateOrderCode, searchOrder} from '../support/helpers'
-import { ConsultaPedidoPage } from '../support/pages/ConsultaPedidoPage'
+import { OrderLockupPage } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
@@ -41,8 +41,8 @@ test.describe('Consulta de Pedido', () => {
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
     //await searchOrder(page, order.number)
-    const consultaPedido = new ConsultaPedidoPage(page)
-    await consultaPedido.buscarPedido(order.number)
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
 
     
   
@@ -140,8 +140,8 @@ test.describe('Consulta de Pedido', () => {
   
     // Act
     //await searchOrder(page, order.number)
-    const consultaPedido = new ConsultaPedidoPage(page)
-    await consultaPedido.buscarPedido(order.number)
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -204,8 +204,8 @@ test.describe('Consulta de Pedido', () => {
   
     // Act
     //await searchOrder(page, order.number)
-    const consultaPedido = new ConsultaPedidoPage(page)
-    await consultaPedido.buscarPedido(order.number)
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
     
     // Assert
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
@@ -255,8 +255,8 @@ test.describe('Consulta de Pedido', () => {
  
     // Act
     //await searchOrder(page, order)
-    const consultaPedido = new ConsultaPedidoPage(page)
-    await consultaPedido.buscarPedido(order)
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order)
   
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
