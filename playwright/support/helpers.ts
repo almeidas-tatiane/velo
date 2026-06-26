@@ -1,5 +1,3 @@
-import { Page } from '@playwright/test'
-
 export function generateOrderCode(pattern = 'N L N N N L') {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
@@ -15,8 +13,3 @@ export function generateOrderCode(pattern = 'N L N N N L') {
       .join('');
   }
   
-
-export async function searchOrder(page: Page, orderNumber: string) {
-  await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(orderNumber)
-  await page.getByRole('button', { name: 'Buscar Pedido' }).click()
-}
