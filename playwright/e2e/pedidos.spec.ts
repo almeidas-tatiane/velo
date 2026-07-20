@@ -21,7 +21,7 @@ test.describe('Consulta de Pedido', () => {
 
     const order = {
       number: 'VLO-4T782X',
-      status: 'APROVADO',
+      status: 'APROVADO' as const,
       color: 'Glacier Blue',
       wheels: 'aero Wheels',
       customer: {
@@ -84,13 +84,16 @@ test.describe('Consulta de Pedido', () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `)
 
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+      // Validação do badge de status encapsulada no Page Object
+    await orderLockupPage.validateStatusBadge(order.status)
 
-      await expect(statusBadge).toHaveClass(/bg-green-100/)
-      await expect(statusBadge).toHaveClass(/text-green-700/)
+      // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
+      // await expect(statusBadge).toHaveClass(/bg-green-100/)
+      // await expect(statusBadge).toHaveClass(/text-green-700/)
+
+      // const statusIcon = statusBadge.locator('svg')
+      // await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
 
 
     //await page.waitForTimeout(30000) //Thread Sleep do Selenium ou Cypress wait cy.wait(10000), evitar usar, pois toda vez ele ficará parado por esse tempo antes de continuar a execução do teste
@@ -126,7 +129,7 @@ test.describe('Consulta de Pedido', () => {
 
     const order = {
       number: 'VLO-7GM008',
-      status: 'REPROVADO',
+      status: 'REPROVADO' as const,
       color: 'Lunar White',
       wheels: 'sport Wheels',
       customer: {
@@ -174,13 +177,15 @@ test.describe('Consulta de Pedido', () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `)
   
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+      
+      await orderLockupPage.validateStatusBadge(order.status)
+      // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
-      await expect(statusBadge).toHaveClass(/bg-red-100/)
-      await expect(statusBadge).toHaveClass(/text-red-700/)
+      // await expect(statusBadge).toHaveClass(/bg-red-100/)
+      // await expect(statusBadge).toHaveClass(/text-red-700/)
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-circle-x/)
+      // const statusIcon = statusBadge.locator('svg')
+      // await expect(statusIcon).toHaveClass(/lucide-circle-x/)
 
   })
 
@@ -190,7 +195,7 @@ test.describe('Consulta de Pedido', () => {
 
     const order = {
       number: 'VLO-TEMJOX',
-      status: 'EM_ANALISE',
+      status: 'EM_ANALISE' as const,
       color: 'Lunar White',
       wheels: 'aero Wheels',
       customer: {
@@ -238,13 +243,14 @@ test.describe('Consulta de Pedido', () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `)
 
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+      await orderLockupPage.validateStatusBadge(order.status)
+      // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
-      await expect(statusBadge).toHaveClass(/bg-amber-100/)
-      await expect(statusBadge).toHaveClass(/text-amber-700/)
+      // await expect(statusBadge).toHaveClass(/bg-amber-100/)
+      // await expect(statusBadge).toHaveClass(/text-amber-700/)
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-clock-icon/)
+      // const statusIcon = statusBadge.locator('svg')
+      // await expect(statusIcon).toHaveClass(/lucide-clock-icon/)
   
     
   })
