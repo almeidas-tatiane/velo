@@ -192,11 +192,7 @@ test.describe('Consulta de Pedido', () => {
     // const message = page.locator('p', { hasText: 'Verifique o número do pedido e tente novamente'})
     // await expect(message).toBeVisible()
 
-    await expect(page.locator('#root')).toMatchAriaSnapshot(`
-      - img
-      - heading "Pedido não encontrado" [level=3]
-      - paragraph: Verifique o número do pedido e tente novamente
-      `)
+    await orderLockupPage.validateOrderNotFound()
 
 
 
