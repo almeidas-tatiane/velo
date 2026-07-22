@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { generateOrderCode } from '../support/helpers'
-import { OrderLockupPage } from '../support/pages/OrderLockupPage'
+import { OrderLockupPage, OrderDetails } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
@@ -19,7 +19,7 @@ test.describe('Consulta de Pedido', () => {
     // Test Data
     // const order = 'VLO-4T782X'
 
-    const order = {
+    const order: OrderDetails = {
       number: 'VLO-4T782X',
       status: 'APROVADO' as const,
       color: 'Glacier Blue',
@@ -179,6 +179,33 @@ test.describe('Consulta de Pedido', () => {
     //await searchOrder(page, order)
     const orderLockupPage = new OrderLockupPage(page)
     await orderLockupPage.searchOrder(order)
+
+    // Assert
+    // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
+    // await expect(page.locator('#root')).toContainText('Verifique o número do pedido e tente novamente')
+
+    // const title = page.getByRole('heading', { name: 'Pedido não encontrado', level: 3})
+    // await expect(title).toBeVisible()
+
+    // const message = page.getByText('Verifique o número do pedido e tente novamente')
+    // const message = page.locator('//p[text()="Verifique o número do pedido e tente novamente"]')
+    // const message = page.locator('p', { hasText: 'Verifique o número do pedido e tente novamente'})
+    // await expect(message).toBeVisible()
+
+    await orderLockupPage.validateOrderNotFound()
+
+
+
+  })
+
+  test('deve exibir mensagem quando o pedido em qualquer formato não é encontrado', async ({ page }) => {
+    //const order = generateOrderCode()
+
+
+    // Act
+    //await searchOrder(page, order)
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder('ABC123')
 
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
