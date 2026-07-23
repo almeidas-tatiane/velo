@@ -1,18 +1,22 @@
-import { test, expect } from '@playwright/test'
+import { test } from '@playwright/test'
 import { generateOrderCode } from '../support/helpers'
+import { HomePage } from '../support/pages/HomePage'
 import { OrderLockupPage, OrderDetails } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
 test.describe('Consulta de Pedido', () => {
 
+  let orderLockupPage: OrderLockupPage
 
   test.beforeEach(async ({ page }) => {
     // Arrange
-    await page.goto('http://localhost:5173/')
-    await expect(page.getByTestId('hero-section').getByRole('heading')).toContainText('Velô Sprint')
-    await page.getByRole('link', { name: 'Consultar Pedido' }).click()
-    await expect(page.getByRole('heading')).toContainText('Consultar Pedido')
+    const homePage = new HomePage(page)
+
+    await homePage.open()
+    await homePage.navbar.goToOrderLookup()
+    orderLockupPage = new OrderLockupPage(page)
+    orderLockupPage.expectLoaded()
   })
 
   test('deve consultar um pedido aprovado', async ({ page }) => {
@@ -41,7 +45,6 @@ test.describe('Consulta de Pedido', () => {
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
     //await searchOrder(page, order.number)
-    const orderLockupPage = new OrderLockupPage(page)
     await orderLockupPage.searchOrder(order.number)
 
 
@@ -115,8 +118,7 @@ test.describe('Consulta de Pedido', () => {
 
     // Act
     //await searchOrder(page, order.number)
-    const orderLockupPage = new OrderLockupPage(page)
-    await orderLockupPage.searchOrder(order.number)
+     await orderLockupPage.searchOrder(order.number)
 
     // Assert
     await orderLockupPage.validateOrderDetails(order)
@@ -153,7 +155,6 @@ test.describe('Consulta de Pedido', () => {
 
     // Act
     //await searchOrder(page, order.number)
-    const orderLockupPage = new OrderLockupPage(page)
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
@@ -204,7 +205,6 @@ test.describe('Consulta de Pedido', () => {
 
     // Act
     //await searchOrder(page, order)
-    const orderLockupPage = new OrderLockupPage(page)
     await orderLockupPage.searchOrder('ABC123')
 
     // Assert

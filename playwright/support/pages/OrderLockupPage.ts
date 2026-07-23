@@ -1,4 +1,5 @@
 import { Page, expect } from '@playwright/test'
+import { Navbar } from '../components/Navbar'
 
 type OrderStatus = 'APROVADO' | 'REPROVADO' | 'EM_ANALISE'
 
@@ -15,7 +16,20 @@ export type OrderDetails = {
 }
 
 export class OrderLockupPage {
-  constructor(private page: Page) { }
+  readonly navbar: Navbar
+
+  constructor(private page: Page) {
+    this.navbar = new Navbar(page)
+  }
+
+  async open() {
+    await this.page.goto('http://localhost:5173/lookup')
+    await this.expectLoaded()
+  }
+
+  async expectLoaded() {
+    await expect(this.page.getByRole('heading')).toContainText('Consultar Pedido')
+  }
 
   async searchOrder(code: string) {
     await this.page.getByRole('textbox', { name: 'Número do Pedido' }).fill(code)
