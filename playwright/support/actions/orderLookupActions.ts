@@ -22,7 +22,9 @@ export function createOrderLookupActions(page: Page) {
   return {
     async open() {
       await page.goto('http://localhost:5173/lookup')
+      await page.getByRole('link', { name: 'Consultar Pedido' }).click()
       await expectLoaded()
+      
     },
 
     expectLoaded,
