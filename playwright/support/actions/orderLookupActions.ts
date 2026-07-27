@@ -15,11 +15,20 @@ export type OrderDetails = {
 }
 
 export function createOrderLookupActions(page: Page) {
+  const orderInput = page.getByRole('textbox', { name: 'Número do Pedido' })
+  const searchButton = page.getByRole('button', { name: 'Buscar Pedido' })
+
   async function expectLoaded() {
     await expect(page.getByRole('heading')).toContainText('Consultar Pedido')
   }
 
   return {
+
+    elements: {
+      orderInput,
+      searchButton
+    },
+    
     async open() {
       await page.goto('http://localhost:5173/lookup')
       await page.getByRole('link', { name: 'Consultar Pedido' }).click()
@@ -30,8 +39,8 @@ export function createOrderLookupActions(page: Page) {
     expectLoaded,
 
     async searchOrder(code: string) {
-      await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(code)
-      await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+      await orderInput.fill(code)
+      await searchButton.click()
     },
 
     async validateStatusBadge(status: OrderStatus) {
