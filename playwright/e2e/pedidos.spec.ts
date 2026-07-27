@@ -1,25 +1,18 @@
-import { test } from '@playwright/test'
+import { test } from '../support/fixtures'
 import { generateOrderCode } from '../support/helpers'
-import { HomePage } from '../support/pages/HomePage'
-import { OrderLockupPage, OrderDetails } from '../support/pages/OrderLockupPage'
+import { OrderDetails } from '../support/actions/orderLookupActions'
 
 /// AAA - Arrange, Act, Assert (Preparar, Agir, Verificar)
 
 test.describe('Consulta de Pedido', () => {
 
-  let orderLockupPage: OrderLockupPage
-
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ app }) => {
     // Arrange
-    const homePage = new HomePage(page)
-
-    await homePage.open()
-    await homePage.navbar.goToOrderLookup()
-    orderLockupPage = new OrderLockupPage(page)
-    orderLockupPage.expectLoaded()
+    await app.orderLookup.open()
+    await app.orderLookup.expectLoaded()
   })
 
-  test('deve consultar um pedido aprovado', async ({ page }) => {
+  test('deve consultar um pedido aprovado', async ({ app }) => {
     // Test Data
     // const order = 'VLO-4T782X'
 
@@ -45,7 +38,7 @@ test.describe('Consulta de Pedido', () => {
     //await page.getByTestId('search-order-button').click()
     // await page.locator('//button[text()="Buscar Pedido"]').click()
     //await searchOrder(page, order.number)
-    await orderLockupPage.searchOrder(order.number)
+    await app.orderLookup.searchOrder(order.number)
 
 
 
@@ -57,10 +50,10 @@ test.describe('Consulta de Pedido', () => {
     // await expect (containerPedido).toContainText(order, { timeout: 10_000 })
     // await expect (page.getByText('APROVADO')).toBeVisible()
 
-    await orderLockupPage.validateOrderDetails(order)
+    await app.orderLookup.validateOrderDetails(order)
 
     // Validação do badge de status encapsulada no Page Object
-    await orderLockupPage.validateStatusBadge(order.status)
+    await app.orderLookup.validateStatusBadge(order.status)
 
     // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
@@ -80,7 +73,7 @@ test.describe('Consulta de Pedido', () => {
 
 
     // Desafio Módulo 2 order-result-id e order-result-status
-    // Para o desafio não removi apenas o data-test-id, mas todo o paragrafo, ficando
+    // Para o desafio não removi apenas o data-test-id, mas todo o parágrafo, ficando
     // De <p className="font-mono font-medium" data-test-id="order-resultid"> {searchedOrder.id} </p>
     // Para <div> <p className="text-sm text-muted-foreground">Pedido</p> {searchedOrder.id} </div>
     // Usando a estrategia do codegen
@@ -90,7 +83,7 @@ test.describe('Consulta de Pedido', () => {
     // await expect(page.getByTestId('order-result-VLO-4T782X')).toContainText('APROVADO')
 
     // Desafio Módulo 2 order-result-id e order-result-status
-    //Usando a estrategia do XPath
+    // Usando a estrategia do XPath
     // await expect(page.locator('//div[contains(text(),"VLO-4T782X")]')).toBeVisible({timeout: 10000})
     // await expect(page.locator('//div[contains(text(),"VLO-4T782X")]')).toContainText('VLO-4T782X')
     // await expect(page.locator('//div[contains(text(),"APROVADO")]')).toBeVisible({timeout: 10000})
@@ -98,7 +91,7 @@ test.describe('Consulta de Pedido', () => {
 
   })
 
-  test('deve consultar um pedido reprovado', async ({ page }) => {
+  test('deve consultar um pedido reprovado', async ({ app }) => {
     // Test Data
     // const order = 'VLO-7GM008'
 
@@ -118,13 +111,13 @@ test.describe('Consulta de Pedido', () => {
 
     // Act
     //await searchOrder(page, order.number)
-     await orderLockupPage.searchOrder(order.number)
+     await app.orderLookup.searchOrder(order.number)
 
     // Assert
-    await orderLockupPage.validateOrderDetails(order)
+    await app.orderLookup.validateOrderDetails(order)
 
 
-    await orderLockupPage.validateStatusBadge(order.status)
+    await app.orderLookup.validateStatusBadge(order.status)
     // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
     // await expect(statusBadge).toHaveClass(/bg-red-100/)
@@ -135,7 +128,7 @@ test.describe('Consulta de Pedido', () => {
 
   })
 
-  test('deve consultar um pedido em analise', async ({ page }) => {
+  test('deve consultar um pedido em analise', async ({ app }) => {
     // Test Data
     // const order = 'VLO-7GM008'
 
@@ -155,12 +148,12 @@ test.describe('Consulta de Pedido', () => {
 
     // Act
     //await searchOrder(page, order.number)
-    await orderLockupPage.searchOrder(order.number)
+    await app.orderLookup.searchOrder(order.number)
 
     // Assert
-    await orderLockupPage.validateOrderDetails(order)
+    await app.orderLookup.validateOrderDetails(order)
 
-    await orderLockupPage.validateStatusBadge(order.status)
+    await app.orderLookup.validateStatusBadge(order.status)
     // const statusBadge = page.getByRole('status').filter({hasText: order.status})
 
     // await expect(statusBadge).toHaveClass(/bg-amber-100/)
@@ -172,14 +165,13 @@ test.describe('Consulta de Pedido', () => {
 
   })
 
-  test('deve exibir mensagem quando o pedido não é encontrado', async ({ page }) => {
+  test('deve exibir mensagem quando o pedido não é encontrado', async ({ app }) => {
     const order = generateOrderCode()
 
 
     // Act
     //await searchOrder(page, order)
-    const orderLockupPage = new OrderLockupPage(page)
-    await orderLockupPage.searchOrder(order)
+    await app.orderLookup.searchOrder(order)
 
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
@@ -193,19 +185,19 @@ test.describe('Consulta de Pedido', () => {
     // const message = page.locator('p', { hasText: 'Verifique o número do pedido e tente novamente'})
     // await expect(message).toBeVisible()
 
-    await orderLockupPage.validateOrderNotFound()
+    await app.orderLookup.validateOrderNotFound()
 
 
 
   })
 
-  test('deve exibir mensagem quando o pedido em qualquer formato não é encontrado', async ({ page }) => {
+  test('deve exibir mensagem quando o pedido em qualquer formato não é encontrado', async ({ app }) => {
     //const order = generateOrderCode()
 
 
     // Act
     //await searchOrder(page, order)
-    await orderLockupPage.searchOrder('ABC123')
+    await app.orderLookup.searchOrder('ABC123')
 
     // Assert
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado')
@@ -219,12 +211,10 @@ test.describe('Consulta de Pedido', () => {
     // const message = page.locator('p', { hasText: 'Verifique o número do pedido e tente novamente'})
     // await expect(message).toBeVisible()
 
-    await orderLockupPage.validateOrderNotFound()
+    await app.orderLookup.validateOrderNotFound()
 
 
 
   })
 
 })
-
-
